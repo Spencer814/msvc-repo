@@ -1,0 +1,59 @@
+{
+  "name": "msvc-repo",
+  "version": "1.0.0",
+  "description": "Building out a microservice from scratch using different technologies.",
+  "main": "gateway.ts",
+  "scripts": {
+    "test": "echo \"No test specified\nImplement ASAP\"",
+    "prepare": "husky install",
+    "start-service-accounts": "nodemon -w services/accounts/src services/accounts/src/index.ts",
+    "start-service-content": "nodemon -w services/content/src services/content/src/index.ts",
+    "start-service-inventory": "nodemon -w services/inventory/src services/inventory/src/index.ts",
+    "start-service-products": "nodemon -w services/products/src services/products/src/index.ts",
+    "start-service-reviews": "nodemon -w services/reviews/src services/reviews/src/index.ts",
+    "start-services": "concurrently -k --kill-others-on-fail -n \"ACCOUNTS,CONTENT,INVENTORY,PRODUCTS,REVIEWS\" -c \"red.bold,green.bold,yellow.bold,blue.bold,magenta.bold\" \"npm:start-service-accounts\" \"npm:start-service-content\" \"npm:start-service-inventory\" \"npm:start-service-products\" \"npm:start-service-reviews\"",
+    "postinstall": "lerna bootstrap",
+    "start-gateway": "nodemon src/gateway.ts",
+    "start": "concurrently -k --kill-others-on-fail -n \"SERVICES,GATEWAY\" -c \"gray.bold,cyan.bold\" \"npm:start-services\" \"wait-on tcp:4001 tcp:4002 tcp:4003 tcp:4004 tcp:4005 && npm run start-gateway\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Spencer814/msvc-repo.git"
+  },
+  "author": "Andre Newman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Spencer814/msvc-repo/issues"
+  },
+  "homepage": "https://github.com/Spencer814/msvc-repo#readme",
+  "dependencies": {
+    "@apollo/gateway": "^0.28.2",
+    "accounts": "file:services/accounts",
+    "apollo-server": "^2.25.0",
+    "content": "file:services/content",
+    "graphql": "^15.5.0",
+    "inventory": "file:services/inventory",
+    "products": "file:services/products",
+    "reviews": "file:services/reviews",
+    "wait-on": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/graphql": "^14.5.0",
+    "@types/node": "^15.12.1",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
+    "concurrently": "^6.2.0",
+    "eslint": "^7.28.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^6.0.0",
+    "lerna": "^4.0.0",
+    "lint-staged": "^11.0.0",
+    "nodemon": "^2.0.7",
+    "prettier": "2.3.1",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.2"
+  }
+}
